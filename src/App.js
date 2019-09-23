@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import ReactTooltip from 'react-tooltip';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { tooltip: false }
+    this.toggle = this.toggle.bind(this);
+
+  }
+  toggle() {
+    console.log('test hover->' + !this.state.tooltip);
+    this.setState({ tooltip: !this.state.tooltip });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          {this.state.tooltip ? <p data-tip='tooltip' data-for='test'></p> : null}
+          <button className="positionCheck" data-for='test' data-tip
+            onMouseEnter={() => this.toggle()}
+            onMouseLeave={() => this.toggle()}>
+            test toolbar
+          </button>
+          {this.state.tooltip ?
+            <ReactTooltip id='test' type='warning' aria-haspopup='true' effect='float' role='example'>
+              <span>Show happy face</span>
+            </ReactTooltip>
+            : null}
+
+
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
